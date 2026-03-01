@@ -1,0 +1,19 @@
+{
+    "User not found": "المستخدم غير موجود",
+    "You dont have enoght balance": "ليس لديك رصيد كافٍ",
+    "Current password is not valid": "كلمة المرور الحالية غير صالحة",
+    "Error try again later.": "خطأ، يرجى المحاولة مرة أخرى لاحقًا.",
+    "The provided credentials do not match our records.": "بيانات الاعتماد المقدمة لا تتطابق مع سجلاتنا.",
+    "Check your email to reset password": "تحقق من بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+    "Invalid Code": "رمز غير صالح",
+    "Task not found": "المهمة غير موجودة",
+    "You already have completed this task": "لقد أكملت هذه المهمة بالفعل",
+    "Proof has been sent": "تم إرسال الدليل",
+    "You don't have enough balance": "ليس لديك رصيد كافٍ",
+    "This wallet is not active for now": "هذه المحفظة غير نشطة في الوقت الحالي",
+    "Plan not found": "المستوى غير موجود",
+    "Proof has been sent, you will be upgraded soon we checked the payment": "تم إستلام طلبك بنجاح. يتم التحقق من الطلب الان..",
+    "Deposit has been created": "تم إنشاء الوديعة",
+    "بنكك": "بنكك",
+    "You have been blocked from the platform.": "لقد تم حظرك من استعمال المنصة"
+}

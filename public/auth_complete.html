@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام تسجيل الدخول - مُبين داش</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .success-icon {
+            color: #4CAF50;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .user-info {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .merchant-name {
+            color: #2196F3;
+            font-size: 0.9rem;
+        }
+
+        .redirect-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .redirect-btn:hover {
+            background: #45a049;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <div class="title">تم تسجيل الدخول بنجاح!</div>
+
+        <div id="userInfo" class="user-info">
+            <!-- سيتم ملؤها بواسطة JavaScript -->
+        </div>
+
+        <button class="redirect-btn" onclick="redirectToApp()">المتابعة إلى التطبيق</button>
+        <div id="loading" class="loading">جاري التحميل...</div>
+        <div id="error" class="error" style="display: none;"></div>
+    </div>
+
+    <script>
+        // استخراج البيانات من URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const authDataJson = urlParams.get('data');
+        const panelToken = urlParams.get('panel_token');
+
+        let authData = null;
+
+        try {
+            if (authDataJson) {
+                authData = JSON.parse(decodeURIComponent(authDataJson));
+            }
+        } catch (e) {
+            console.error('خطأ في تحليل البيانات:', e);
+            showError('حدث خطأ في معالجة بيانات تسجيل الدخول');
+            return;
+        }
+
+        if (authData && authData.user) {
+            displayUserInfo(authData.user);
+            // حفظ البيانات في localStorage لاستخدامها في التطبيق
+            localStorage.setItem('salla_auth_data', JSON.stringify(authData));
+        } else {
+            showError('لم يتم العثور على بيانات المستخدم');
+        }
+
+        function displayUserInfo(user) {
+            const userInfoDiv = document.getElementById('userInfo');
+            const merchant = user.merchant || {};
+
+            userInfoDiv.innerHTML = `
+                <div class="user-name">مرحباً ${user.name || 'المستخدم'}</div>
+                ${user.email ? `<div class="user-email">البريد الإلكتروني: ${user.email}</div>` : ''}
+                ${merchant.name ? `<div class="merchant-name">المتجر: ${merchant.name}</div>` : ''}
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('error').textContent = message;
+            document.getElementById('error').style.display = 'block';
+            document.querySelector('.success-icon').style.display = 'none';
+            document.querySelector('.title').textContent = 'خطأ في تسجيل الدخول';
+            document.querySelector('.redirect-btn').style.display = 'none';
+        }
+
+        function redirectToApp() {
+            // محاولة عدة طرق للعودة إلى التطبيق
+
+            // الطريقة الأولى: إعادة توجيه مباشرة إلى التطبيق
+            const redirectUrl = 'http://localhost:65076/#/auth/complete?panel_token=' + encodeURIComponent(panelToken);
+
+            // عرض رسالة مؤقتة ثم إعادة التوجيه
+            showLoadingMessage();
+
+            // محاولة إعادة التوجيه
+            setTimeout(() => {
+                window.location.href = redirectUrl;
+            }, 1000);
+
+            // الطريقة الثانية: إذا لم تعمل الأولى، عرض تعليمات يدوية
+            setTimeout(() => {
+                if (!document.querySelector('.manual-redirect')) {
+                    showManualRedirectOptions();
+                }
+            }, 3000);
+        }
+
+        function showLoadingMessage() {
+            const container = document.querySelector('.container');
+            const title = container.querySelector('.title');
+            const button = container.querySelector('.redirect-btn');
+
+            title.textContent = 'جاري إعادة توجيهك إلى التطبيق...';
+            button.style.display = 'none';
+
+            const loadingDiv = document.getElementById('loading');
+            loadingDiv.style.display = 'block';
+        }
+
+        function showManualRedirectOptions() {
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <div class="success-icon">✅</div>
+                <div class="title">تم تسجيل الدخول بنجاح!</div>
+                <div class="user-info">
+                    <p>يرجى العودة إلى تطبيق مُبين داش لإتمام عملية تسجيل الدخول.</p>
+                    <div style="background: #e3f2fd; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                        <strong>Panel Token:</strong><br>
+                        <code style="font-family: monospace; font-size: 12px; word-break: break-all;">${panelToken}</code>
+                    </div>
+                    <p><strong>خطوات العودة:</strong></p>
+                    <ol style="text-align: right; padding-right: 20px;">
+                        <li>ارجع إلى تطبيق مُبين داش</li>
+                        <li>ستجد صفحة إتمام تسجيل الدخول مفتوحة</li>
+                        <li>سيتم تسجيل دخولك تلقائياً</li>
+                    </ol>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <button class="redirect-btn" onclick="copyPanelToken()">نسخ Panel Token</button>
+                    <button class="redirect-btn" onclick="window.close()" style="background: #f44336;">إغلاق الصفحة</button>
+                </div>
+                <div id="copy-status" style="margin-top: 10px; color: #4CAF50; display: none;">تم نسخ Panel Token!</div>
+            `;
+        }
+
+        function copyPanelToken() {
+            navigator.clipboard.writeText(panelToken).then(() => {
+                const statusDiv = document.getElementById('copy-status');
+                statusDiv.style.display = 'block';
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 2000);
+            }).catch(() => {
+                alert('Panel Token: ' + panelToken);
+            });
+        }
+
+        // حفظ panel_token في sessionStorage للاستخدام لاحقاً
+        if (panelToken) {
+            sessionStorage.setItem('panel_token', panelToken);
+        }
+    </script>
+</body>
+</html>

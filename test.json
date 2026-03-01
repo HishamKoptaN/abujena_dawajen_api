@@ -1,0 +1,288 @@
+[
+    {
+        "from_currency": "Binance",
+        "plans_rates": [
+            [
+                {
+                    "id": 1,
+                    "status": true,
+                    "plan_id": 1,
+                    "from": 1,
+                    "to": 2,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "بنكك"
+                },
+                {
+                    "id": 2,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 1,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 3,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 1,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 4,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 1,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "TRC 20"
+                }
+            ],
+            [
+                {
+                    "id": 5,
+                    "status": true,
+                    "plan_id": 2,
+                    "from": 1,
+                    "to": 2,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "بنكك"
+                },
+                {
+                    "id": 6,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 1,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 7,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 1,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 8,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 1,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "TRC 20"
+                }
+            ],
+            [
+                {
+                    "id": 9,
+                    "status": true,
+                    "plan_id": 3,
+                    "from": 1,
+                    "to": 2,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "بنكك"
+                },
+                {
+                    "id": 10,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 1,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 11,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 1,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 12,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 1,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "Binance",
+                    "to_from": "TRC 20"
+                }
+            ]
+        ]
+    },
+    {
+        "from_currency": "بنكك",
+        "plans_rates": [
+            [
+                {
+                    "id": 13,
+                    "status": true,
+                    "plan_id": 1,
+                    "from": 2,
+                    "to": 1,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Binance"
+                },
+                {
+                    "id": 14,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 2,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 15,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 2,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 16,
+                    "status": false,
+                    "plan_id": 1,
+                    "from": 2,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "TRC 20"
+                }
+            ],
+            [
+                {
+                    "id": 17,
+                    "status": true,
+                    "plan_id": 2,
+                    "from": 2,
+                    "to": 1,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Binance"
+                },
+                {
+                    "id": 18,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 2,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 19,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 2,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 20,
+                    "status": false,
+                    "plan_id": 2,
+                    "from": 2,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "TRC 20"
+                }
+            ],
+            [
+                {
+                    "id": 21,
+                    "status": true,
+                    "plan_id": 3,
+                    "from": 2,
+                    "to": 1,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Binance"
+                },
+                {
+                    "id": 22,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 2,
+                    "to": 3,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Payeer"
+                },
+                {
+                    "id": 23,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 2,
+                    "to": 4,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "Perfect Money"
+                },
+                {
+                    "id": 24,
+                    "status": false,
+                    "plan_id": 3,
+                    "from": 2,
+                    "to": 5,
+                    "selling": null,
+                    "buying": null,
+                    "from_from": "بنكك",
+                    "to_from": "TRC 20"
+                }
+            ]
+        ]
+    }
+]
