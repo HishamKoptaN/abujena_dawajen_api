@@ -54,13 +54,15 @@
         }
     },
     "scripts": {
+        "post-install-cmd": [
+            "cp .env.prod .env",
+            "@php artisan migrate --force"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "cp .env.prod .env",
-            "@php artisan migrate --force",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
