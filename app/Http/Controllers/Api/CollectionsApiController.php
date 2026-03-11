@@ -1,19 +1,19 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
-use App\Models\DailyCollection;
+use App\Models\Collection;
 use App\Models\Customer;
-use App\Models\DailyOrder;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Models\CustomerDailyReport;
-class DailyCollectionsApiController extends Controller
+class CollectionsApiController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = DailyCollection::with(['customer']);
+        $query = Collection::with(['customer']);
         if ($request->date) {
             $query->forDate($request->date);
         }
@@ -38,7 +38,7 @@ class DailyCollectionsApiController extends Controller
                 'message' => 'العميل غير موجود'
             ], 404);
         }
-        $collections = DailyCollection::where('customer_id', $id)
+        $collections = Collection::where('customer_id', $id)
             ->whereDate('created_at', $dateString)
             ->orderBy('created_at', 'desc')
             ->get();
@@ -68,7 +68,7 @@ class DailyCollectionsApiController extends Controller
             'amount'      => 'required|numeric|min:0.01',
         ]);
         try {
-            $collection = DailyCollection::create([
+            $collection = Collection::create([
                 'customer_id' => $request->customer_id,
                 'amount'      => $request->amount,
             ]);
@@ -85,7 +85,7 @@ class DailyCollectionsApiController extends Controller
     }
     public function update(Request $request, $id): JsonResponse
     {
-        $collection = DailyCollection::findOrFail($id);
+        $collection = Collection::findOrFail($id);
         $request->validate([
             'amount' => 'sometimes|required|numeric|min:0.01',
             'status' => 'sometimes|required|in:pending,collected,cancelled',
@@ -98,9 +98,9 @@ class DailyCollectionsApiController extends Controller
     }
     public function getCustomerCollections($customerId): JsonResponse
     {
-        $collections = DailyCollection::with(['customer'])
+        $collections = Collection::with(['customer'])
             ->where('customer_id', $customerId)
-            ->orderBy('collection_date', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
         return response()->json([
             'status' => 'success',

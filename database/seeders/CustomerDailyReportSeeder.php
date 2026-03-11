@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Models\CustomerDailyReport;
 use App\Models\Customer;
 use App\Models\Transaction;
-use App\Models\DailyCollection;
+use App\Models\Collection;
 use Carbon\Carbon;
 class CustomerDailyReportSeeder extends Seeder
 {
@@ -26,7 +26,7 @@ class CustomerDailyReportSeeder extends Seeder
                         return ($detail->quantity * $detail->price_at_time) - $detail->discount;
                     });
                 });
-            $totalCollections = DailyCollection::where('customer_id', $customers->random()->id)
+            $totalCollections = Collection::where('customer_id', $customers->random()->id)
                 ->whereDate('created_at', $reportDate)
                 ->sum('amount');
             $closingBalance = $openingBalance + $totalSales - $totalCollections;

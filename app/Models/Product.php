@@ -25,9 +25,9 @@ class Product extends Model
     {
         return $this->productDailyPrices()->whereDate('created_at', $date)->first();
     }
-    public function dailyOrders(): HasMany
+    public function orders(): HasMany
     {
-        return $this->hasMany(DailyOrder::class);
+        return $this->hasMany(Order::class);
     }
 
     public function inventory(): HasMany

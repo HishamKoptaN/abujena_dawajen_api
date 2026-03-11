@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\DailyPriceSeeder;
 use Database\Seeders\TransactionSeeder;
-use Database\Seeders\DailyCollectionSeeder;
+use Database\Seeders\CollectionSeeder;
 use Database\Seeders\ProductReturnSeeder;
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             DailyPriceSeeder::class,
             TransactionSeeder::class,
-            DailyCollectionSeeder::class,
+            CollectionSeeder::class,
             ProductReturnSeeder::class,
         ]);
     }

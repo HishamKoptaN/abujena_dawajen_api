@@ -9,7 +9,7 @@ use App\Models\Product;
 use App\Models\ProductDailyPrice;
 use App\Models\Customer;
 use App\Models\Transaction;
-use App\Models\DailyCollection;
+use App\Models\Collection;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Http\Resources\CustomerDailyReportDetailResource;
 use App\Http\Resources\ProductPriceResource;
@@ -108,7 +108,7 @@ class CustomerDailyReportsApiController extends Controller
                     return ($detail->quantity * $detail->price_at_time) - $detail->discount;
                 });
             });
-        $totalCollections = DailyCollection::where('customer_id', $request->customer_id)
+        $totalCollections = Collection::where('customer_id', $request->customer_id)
             ->whereDate('created_at', $reportDate)
             ->sum('amount');
         $closingBalance = $openingBalance + $totalSales - $totalCollections;

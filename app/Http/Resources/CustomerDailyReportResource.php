@@ -3,7 +3,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Transaction;
-use App\Models\DailyCollection;
+use App\Models\Collection;
 use App\Models\Customer;
 use App\Models\ProductReturn;
 use Carbon\Carbon;
@@ -17,7 +17,7 @@ class CustomerDailyReportResource extends JsonResource
         ->whereDate('created_at', $targetDate->toDateString())
         ->with(['transactionDetails.product'])
         ->get();
-        $todayCollections = $this->resource->customer->dailyCollections()
+        $todayCollections = $this->resource->customer->collections()
             ->whereDate('created_at', $targetDate)
             ->get();
         $productDailyTotals = [];
@@ -45,7 +45,7 @@ class CustomerDailyReportResource extends JsonResource
             'id' => (int)$this->resource->id,
             'customer' => $this->resource->customer,
             'yesterday_closed_balance' => (int)$this->resource->getYesterdayClosedBalance(),
-            'product_orders' => $this->resource->customer->dailyOrders()
+            'product_orders' => $this->resource->customer->orders()
                 ->whereDate('created_at', $targetDate)
                 ->with(['product'])
                 ->get()
@@ -73,7 +73,7 @@ class CustomerDailyReportResource extends JsonResource
             ->whereDate('created_at', $yesterday)
             ->with('transactionDetails')
             ->get();
-        $yesterdayCollections = DailyCollection::where('customer_id', $customerId)
+        $yesterdayCollections = Collection::where('customer_id', $customerId)
             ->whereDate('created_at', $yesterday)
             ->get();
         $totalTransactionAmount = $yesterdayTransactions->sum(function ($transaction) {

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\CustomerDailyReport;
-use App\Models\DailyOrder;
+use App\Models\Order;
 use App\Models\ProductReturn;
 class Customer extends Model
 {
@@ -53,14 +53,14 @@ class Customer extends Model
         return $this->hasMany(Transaction::class);
     }
 
-    public function dailyCollections()
+    public function collections()
     {
-        return $this->hasMany(DailyCollection::class);
+        return $this->hasMany(Collection::class);
     }
 
-    public function dailyOrders()
+    public function orders()
     {
-        return $this->hasMany(DailyOrder::class);
+        return $this->hasMany(Order::class);
     }
 
     public function returns()
@@ -75,7 +75,7 @@ class Customer extends Model
 
     public function getTodayCollection()
     {
-        return $this->dailyCollections()->whereDate('created_at', today())->first();
+        return $this->collections()->whereDate('created_at', today())->first();
     }
 
     public function getTodayBalance()

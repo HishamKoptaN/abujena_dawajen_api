@@ -12,11 +12,11 @@ class CustomerDailyReportDetailResource extends JsonResource
             ->with(['transactionDetails.product'])
             ->orderBy('created_at', 'desc')
             ->get();
-        $todayCollections = $this->resource->customer->dailyCollections()
+        $todayCollections = $this->resource->customer->collections()
             ->whereDate('created_at', $targetDate)
             ->orderBy('created_at', 'desc')
             ->get();
-        $todayOrders = $this->resource->customer->dailyOrders()
+        $todayOrders = $this->resource->customer->orders()
             ->whereDate('created_at', $targetDate)
             ->with(['product'])
             ->orderBy('created_at', 'desc')
@@ -37,8 +37,8 @@ class CustomerDailyReportDetailResource extends JsonResource
             'yesterday_closed_balance' => (int)$this->resource->getYesterdayClosedBalance(),
             'transactions' => TransactionResource::collection($todayTransactions),
             'total_transactions_amount' => (int)$totalTransactionAmount,
-            'collections' => DailyCollectionResource::collection($todayCollections),
-            'orders' => DailyOrderResource::collection($todayOrders),
+            'collections' => CollectionResource::collection($todayCollections),
+            'orders' => OrderResource::collection($todayOrders),
             'closing_balance' => (int)$closingBalance,
             'created_at' => $this->resource->created_at,
         ];

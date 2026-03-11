@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\DailyCollection;
+use App\Models\Collection;
 use App\Models\Customer;
 use Carbon\Carbon;
 
-class DailyCollectionSeeder extends Seeder
+class CollectionSeeder extends Seeder
 {
     public function run()
     {
@@ -18,7 +18,7 @@ class DailyCollectionSeeder extends Seeder
                 if (rand(1, 100) <= 70) {
                     if (rand(1, 100) <= 50) {
                         $amount = rand(100, 2000);
-                        DailyCollection::create([
+                        Collection::create([
                             'customer_id' => $customer->id,
                             'amount' => $amount,
                             'created_at' => $collectionDate->copy()->addHours(rand(8, 18)),
@@ -27,13 +27,13 @@ class DailyCollectionSeeder extends Seeder
                     } else {
                         $amount1 = rand(50, 1000);
                         $amount2 = rand(50, 1000);
-                        DailyCollection::create([
+                        Collection::create([
                             'customer_id' => $customer->id,
                             'amount' => $amount1,
                             'created_at' => $collectionDate->copy()->addHours(rand(8, 12)),
                             'updated_at' => $collectionDate->copy()->addHours(rand(8, 12)),
                         ]);
-                        DailyCollection::create([
+                        Collection::create([
                             'customer_id' => $customer->id,
                             'amount' => $amount2,
                             'created_at' => $collectionDate->copy()->addHours(rand(14, 18)),

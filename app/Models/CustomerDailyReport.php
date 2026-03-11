@@ -53,7 +53,7 @@ class CustomerDailyReport extends Model
             ->sum(function ($t) {
                 return $t->transactionDetails->sum(fn($d) => ($d->weight *     $d->price_at_time) - $d->discount);
             });
-        $todayCollected = (float) $this->customer->dailyCollections()
+        $todayCollected = (float) $this->customer->collections()
             ->whereDate('created_at', $targetDate)
             ->sum('amount');
         $todayReturns = (float) ProductReturn::where('customer_id',     $this->customer_id)
@@ -144,7 +144,7 @@ class CustomerDailyReport extends Model
             ->with(['transactionDetails.product'])
             ->orderBy('created_at', 'desc')
             ->get();
-        $collections = DailyCollection::where('customer_id', $customerId)
+        $collections = Collection::where('customer_id', $customerId)
             ->whereBetween('created_at', [$start->startOfDay(), $end->endOfDay()])
             ->orderBy('created_at', 'desc')
             ->get();
