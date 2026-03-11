@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
     'name' => env('APP_NAME', 'Laravel'),
+    'version' => env('APP_VERSION', '1.0.0'),
     'env' => env('APP_ENV', 'production'),
     'debug' => (bool) env('APP_DEBUG', false),
     'url' => env('APP_URL', 'http://localhost'),
@@ -47,7 +48,6 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class, // قم بتفعيله إذا كنت بحاجة إلى البث
     ],
 
     'aliases' => Facade::defaultAliases()->merge([
