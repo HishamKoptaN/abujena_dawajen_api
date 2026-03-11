@@ -16,9 +16,6 @@ return new class extends Migration
                  $table->decimal('weight', 10, 2);
                  $table->timestamps();
              });
-             Schema::table('orders', function (Blueprint $table) {
-                  $table->foreignId('price_id'); 
-             });
     });
     }
     public function down()
