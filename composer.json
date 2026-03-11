@@ -56,7 +56,10 @@
     "scripts": {
         "post-install-cmd": [
             "cp .prod.env .env",
-            "@php artisan migrate --force"
+            "@php artisan migrate --force",
+            "@php artisan config:cache",
+            "@php artisan route:cache",
+            "@php artisan view:cache"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
