@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Models\DailyCollection;
 use App\Models\Customer;
@@ -11,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Models\CustomerDailyReport;
-
 class DailyCollectionsApiController extends Controller
 {
     public function index(Request $request): JsonResponse
@@ -26,10 +23,43 @@ class DailyCollectionsApiController extends Controller
         $collections = $query->orderBy('collection_date', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
-        return response()->json([
-            'status' => 'success',
-            'data' => $collections
+        return response()->json($collections);
+    }
+    public function show(Request $request, $id): JsonResponse
+    {
+        $request->validate([
+            'date' => 'nullable|date'
         ]);
+        $dateString = $request->date->toDateString();
+        $customer = Customer::find($id);
+        if (!$customer) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'العميل غير موجود'
+            ], 404);
+        }
+        $collections = DailyCollection::where('customer_id', $id)
+            ->whereDate('created_at', $dateString)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $totalAmount = $collections->sum('amount');
+        $collectionsCount = $collections->count();
+        return response()->json([
+                'collections' => $collections->map(function ($collection) {
+                    return [
+                        'id' => $collection->id,
+                        'amount' => $collection->amount,
+                        'notes' => $collection->notes,
+                        'created_at' => $collection->created_at->toISOString(),
+                        'updated_at' => $collection->updated_at->toISOString()
+                    ];
+                }),
+                'summary' => [
+                    'total_collections' => $collectionsCount,
+                    'total_amount' => $totalAmount,
+                ]
+            ]
+        );
     }
     public function store(Request $request): JsonResponse
     {
@@ -77,21 +107,5 @@ class DailyCollectionsApiController extends Controller
             'data' => $collections
         ]);
     }
-
-    public function getDailyStats($date = null): JsonResponse
-    {
-        $date = $date ?? today();
-        $stats = [
-            'total_collections' => DailyCollection::forDate($date)->count(),
-            'pending_collections' => DailyCollection::forDate($date)->pending()->count(),
-            'collected_collections' => DailyCollection::forDate($date)->collected()->count(),
-            'total_amount' => DailyCollection::forDate($date)->where('status', 'collected')->sum('amount'),
-            'total_weight' => DailyCollection::forDate($date)->where('status', 'collected')->sum('chicken_weight'),
-            'avg_price' => DailyCollection::forDate($date)->where('status', 'collected')->avg('chicken_price')
-        ];
-        return response()->json([
-            'status' => 'success',
-            'data' => $stats
-        ]);
-    }
+   
 }

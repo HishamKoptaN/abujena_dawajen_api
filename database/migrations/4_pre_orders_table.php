@@ -8,19 +8,17 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('product_daily_prices', function (Blueprint $table) {
+        Schema::create('pre_orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
-            $table->decimal('price', 10, 2);
-            $table->date('date');
-            $table->text('notes')->nullable();
+            $table->decimal('count', 10, 2); 
+            $table->enum('status', ['pending', 'confirmed', 'delivered', 'cancelled'])->default('pending');
             $table->timestamps();
-            $table->unique(['product_id', 'date']);
         });
     }
-
     public function down()
     {
-        Schema::dropIfExists('product_daily_prices');
+        Schema::dropIfExists('daily_orders');
     }
 };

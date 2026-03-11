@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -13,72 +11,83 @@ use App\Models\Customer;
 use App\Models\Transaction;
 use App\Models\DailyCollection;
 use App\Http\Resources\CustomerDailyReportResource;
-use App\Http\Resources\ProductDailyPriceResource;
+use App\Http\Resources\CustomerDailyReportDetailResource;
+use App\Http\Resources\ProductPriceResource;
 use App\Models\CustomerDailyReport;
+use App\Helpers\DateHelper;
+use App\Http\Requests\GetDailyReportRequest;
 
 class CustomerDailyReportsApiController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(GetDailyReportRequest $request): JsonResponse
     {   
-       $targetDate = $request->date ? $this->parseArabicDate($request->date) : today();
-       $dateString = $targetDate->toDateString();
-       $productDailyPrices = ProductDailyPrice::with(['product'])
-            ->whereNotNull('price')
-            ->orderBy('product_id')
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->unique('product_id');
-        $todayPrices = ProductDailyPrice::whereDate('created_at', $targetDate)
-            ->pluck('product_id')
-            ->toArray();
-        $products = Product::all();
-        foreach ($products as $product) {
-            if (!in_array($product->id, $todayPrices)) {
-                ProductDailyPrice::create([
-                    'product_id' => $product->id,
-                    'price' => null,
-                    'created_at' => $targetDate,
-                    'updated_at' => $targetDate
-                ]);
-            }
-        }
-        $customers = Customer::orderBy('number')->get();
-        $customerDailyReports = collect();
-        foreach ($customers as $customer) {
-            $dailyReport = CustomerDailyReport::getOrCreateForCustomer($customer->id, $dateString);
-            $customerDailyReports->push($dailyReport->load('customer'));
-        }
+        $productDailyPrices = $this->getDailyPrices($request->date);
+        $customerDailyReports = $this->getCustomerDailyReports($request->date);
         return response()->json([
-             'product_daily_prices' => ProductDailyPriceResource::collection($productDailyPrices),
+             'product_daily_prices' => ProductPriceResource::collection($productDailyPrices),
              'customer_daily_reports' => CustomerDailyReportResource::collection($customerDailyReports),
         ]);
     }
-    private function parseArabicDate($dateString)
+    private function getDailyPrices(Carbon $targetDate)
     {
-        try {
-            return Carbon::parse($dateString);
-        } catch (\Exception $e) {
-            $patterns = [
-                '/(\d{1,2})\/(\d{1,2})\/(\d{4})/' => function($matches) {
-                    return Carbon::createFromDate($matches[3], $matches[2], $matches[1]);
-                },
-                '/(\d{4})\/(\d{1,2})\/(\d{1,2})/' => function($matches) {
-                    return Carbon::createFromDate($matches[1], $matches[2], $matches[3]);
-                },
-                '/(\d{1,2})-(\d{1,2})-(\d{4})/' => function($matches) {
-                    return Carbon::createFromDate($matches[3], $matches[2], $matches[1]);
-                },
-            ];
-            foreach ($patterns as $pattern => $callback) {
-                if (preg_match($pattern, $dateString, $matches)) {
-                    return $callback($matches);
-                }
-            }
-            return today();
-        }
+        return Product::all()->map(function ($product) use ($targetDate) {
+            $product->dailyPrice = $product->getPriceForDate($targetDate);
+            return $product;
+        });
     }
-    
-    
+    private function getCustomerDailyReports(Carbon $targetDate)
+    {
+        $customers = Customer::orderBy('number')->get();
+        $customerDailyReports = collect();
+        
+        foreach ($customers as $customer) {
+            $dailyReport = CustomerDailyReport::getOrCreateForCustomer($customer->id, $targetDate);
+            $customerDailyReports->push($dailyReport->load('customer'));
+        }
+        return $customerDailyReports;
+    }
+    public function show($id): JsonResponse
+    {
+        $dailyReport = CustomerDailyReport::findOrFail($id);
+        $reportDate = $dailyReport->created_at->toDateString();
+        return response()->json(
+            new CustomerDailyReportDetailResource($dailyReport)
+        );
+    }
+    public function getStatementByDays(Request $request, $customerId)
+    {
+        $request->validate([
+            'days' => 'nullable|integer|min:1|max:365'
+        ]);
+        $days = $request->query('days', 2);
+        $endDate = now()->endOfDay();
+        $startDate = now()->subDays((int)$days - 1)->startOfDay();
+        $customer = Customer::find($customerId);
+        if (!$customer) {
+            return response()->json(['status' => 'error', 'message' => 'العميل غير     موجود'], 404);
+        }
+        $dailyReports = CustomerDailyReport::where('customer_id', $customerId)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        $detailedReports = [];
+        foreach ($dailyReports as $dailyReport) {
+            $detailedReports[] = new CustomerDailyReportDetailResource($dailyReport);
+        }
+        $summary = [
+            'opening_balance' => optional($dailyReports->last())->yesterday_closed_balance ?? 0,
+            'closing_balance' => optional($dailyReports->first())->closing_balance ?? 0,
+            'total_period_collections' => $dailyReports->sum('total_collections'),
+            'reports_count' => $dailyReports->count(),
+        ];
+        return response()->json([
+            'period' => [
+                'from' => $startDate->toDateString(),
+                'to' => $endDate->toDateString(),
+            ],
+            'data' => $detailedReports
+        ]);
+    }
     public function store(Request $request): JsonResponse
     {
         $request->validate([
@@ -105,7 +114,6 @@ class CustomerDailyReportsApiController extends Controller
         $closingBalance = $openingBalance + $totalSales - $totalCollections;
         $dailyReport = CustomerDailyReport::create([
             'customer_id' => $request->customer_id,
-            'opening_balance' => $openingBalance,
             'closing_balance' => $closingBalance,
             'created_at' => $reportDate,
             'updated_at' => $reportDate
@@ -116,4 +124,5 @@ class CustomerDailyReportsApiController extends Controller
             'data' => $dailyReport
         ]);
     }
+   
 }

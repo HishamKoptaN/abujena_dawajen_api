@@ -11,15 +11,16 @@ class ProductSeeder extends Seeder
     {
         $products = [
             [
+                'id' => 1,
                 'name' => ' تسمين',
             ],
             [
+                'id' => 2,
                 'name' =>'أمهات',
             ]
         ];
-
         foreach ($products as $product) {
-            Product::create($product);
+            Product::updateOrCreate(['id' => $product['id']], $product);
         }
     }
 }

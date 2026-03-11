@@ -8,16 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('daily_collections', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
-            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
     public function down()
     {
-        Schema::dropIfExists('daily_collections');
+        Schema::dropIfExists('collections');
     }
 };

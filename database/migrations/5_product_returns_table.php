@@ -8,14 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('daily_transactions', function (Blueprint $table) {
+        Schema::create('product_returns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->decimal('weight', 10, 2);
             $table->timestamps();
         });
     }
     public function down()
     {
-        Schema::dropIfExists('daily_transactions');
+        Schema::dropIfExists('product_returns');
     }
 };

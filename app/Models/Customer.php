@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\CustomerDailyReport;
 use App\Models\DailyOrder;
+use App\Models\ProductReturn;
 class Customer extends Model
 {
     use HasFactory;
@@ -42,7 +43,6 @@ class Customer extends Model
             $lastClosingBalance = $lastReport ? $lastReport->closing_balance : 0;
             CustomerDailyReport::create([
                 'customer_id'       => $this->id,
-                'opening_balance'   => $lastClosingBalance,
                 'closing_balance'   => $lastClosingBalance,
                 'created_at'        => now(),
             ]);
@@ -61,6 +61,11 @@ class Customer extends Model
     public function dailyOrders()
     {
         return $this->hasMany(DailyOrder::class);
+    }
+
+    public function returns()
+    {
+        return $this->hasMany(ProductReturn::class);
     }
 
     public function getTodayTransactions()

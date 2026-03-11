@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use App\Casts\PreciseDouble;
 class ProductDailyPrice extends Model
 {
     use HasFactory;
@@ -14,7 +14,7 @@ class ProductDailyPrice extends Model
         'price',
     ];
     protected $casts = [
-        'price' => 'decimal:2',
+       'price' => PreciseDouble::class,
     ];
     public function product(): BelongsTo
     {

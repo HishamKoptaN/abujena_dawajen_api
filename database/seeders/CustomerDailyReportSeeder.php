@@ -32,7 +32,6 @@ class CustomerDailyReportSeeder extends Seeder
             $closingBalance = $openingBalance + $totalSales - $totalCollections;
             CustomerDailyReport::create([
                 'customer_id' => $customers->random()->id,
-                'opening_balance' => $openingBalance,
                 'closing_balance' => $closingBalance,
                 'created_at' => $reportDate,
                 'updated_at' => $reportDate

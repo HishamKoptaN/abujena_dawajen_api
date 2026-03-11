@@ -9,9 +9,11 @@ use App\Http\Controllers\Api\PaymentsApiController;
 use App\Http\Controllers\Api\DailyCollectionsApiController;
 use App\Http\Controllers\Api\CustomerDailyReportsApiController;
 use App\Http\Controllers\Api\TransactionsApiController;
-
+use App\Http\Controllers\Api\ReturnsApiController;
 Route::apiResource('customer-daily-reports', CustomerDailyReportsApiController::class);
+Route::get('customer-daily-reports/{customer_id}/statement', [CustomerDailyReportsApiController::class, 'generateAccountStatement']);
 Route::apiResource('transactions', TransactionsApiController::class);
+Route::apiResource('returns', ReturnsApiController::class);
 Route::apiResource('customers', CustomersApiController::class);
 Route::apiResource('products', ProductsApiController::class);
 Route::post('products/price', [ProductsApiController::class, 'storePrice']);

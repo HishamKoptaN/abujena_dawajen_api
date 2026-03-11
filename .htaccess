@@ -1,8 +1,6 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # إخبار السيرفر أن هذا المسار يبدأ من mapi
-    RewriteBase /mapi/
-    
+    RewriteBase /abujena-dawajen-api/
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

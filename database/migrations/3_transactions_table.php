@@ -8,14 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->decimal('balance', 10, 2)->after('name');
+        Schema::create('transactions', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            $table->dropColumn('balance');
-        });
+        Schema::dropIfExists('products');
     }
 };

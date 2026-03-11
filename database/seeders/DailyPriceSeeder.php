@@ -12,26 +12,28 @@ class DailyPriceSeeder extends Seeder
     public function run()
     {
         $products = Product::all();
-        
-        // نبدأ من 30 يوماً مضت وصولاً إلى اليوم
         for ($i = 30; $i >= 0; $i--) {
             $date = Carbon::now()->subDays($i);
+            $dateString = $date->format('Y-m-d');
 
             foreach ($products as $product) {
-                // نستخدم updateOrCreate مع تحديد التاريخ والمنتج لمنع التكرار
-                ProductDailyPrice::updateOrCreate(
-                    [
+                $existingPricesCount = ProductDailyPrice::where('product_id', $product->id)
+                    ->whereDate('created_at', $dateString)
+                    ->count();
+                if ($existingPricesCount >= 2) {
+                    continue; 
+                }
+                $needed = 2 - $existingPricesCount;
+                for ($j = 0; $j < $needed; $j++) {
+                    ProductDailyPrice::create([
                         'product_id' => $product->id,
-                        'created_at' => $date->format('Y-m-d'),
-                    ],
-                    [
                         'price' => $product->name === 'تسمين' 
                             ? (75.00 + rand(-5, 5)) 
                             : (120.00 + rand(-10, 10)),
-                        'notes' => 'سعر تلقائي لليوم: ' . $date->format('Y-m-d'),
-                        'updated_at' => $date,
-                    ]
-                );
+                        'created_at' => $date->copy()->startOfDay()->addHours($j == 0 ? 8 : 16),
+                        'updated_at' => $date->copy()->startOfDay()->addHours($j == 0 ? 8 : 16),
+                    ]);
+                }
             }
         }
     }

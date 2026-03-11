@@ -4,15 +4,13 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-class ProductDailyPriceResource extends JsonResource
+class ProductResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
             'id' => $this->resource->id,
-            'price' => $this->resource->price,
-            'product_id' => $this->resource->product_id,
-            'created_at' => $this->resource->created_at,
+            'name' => $this->resource->name,
         ];
     }
 }

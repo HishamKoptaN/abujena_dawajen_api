@@ -28,16 +28,16 @@ class ProductsApiController extends Controller
             ->whereDate('created_at', today())
             ->latest()
             ->first();
-        if ($latestPrice && $latestPrice->price == $request->price) {
-            return response()->json(new ProductDailyPriceResource($latestPrice));
-        }
         if ($latestPrice && ($latestPrice->price === null || $latestPrice->price == 0)) {
             $latestPrice->update(['price' => $request->price]);
             return response()->json(new ProductDailyPriceResource($latestPrice));
         }
+        if ($latestPrice && $latestPrice->price == $request->price) {
+            return response()->json(new ProductDailyPriceResource($latestPrice));
+        }
         $newPrice = ProductDailyPrice::create([
             'product_id' => $request->product_id,
-            'price'      => $request->price,
+            'price' => $request->price,
         ]);
         return response()->json(new ProductDailyPriceResource($newPrice));
     }
@@ -54,10 +54,9 @@ class ProductsApiController extends Controller
                     'notes' => $price->notes
                 ];
             });
-        return response()->json([
-            'status' => 'success',
-            'data' => $prices
-        ]);
+        return response()->json( 
+            $prices
+        );
     }
     public function getPriceHistory($productId, $days = 30): JsonResponse
     {
@@ -66,9 +65,8 @@ class ProductsApiController extends Controller
             ->where('created_at', '>=', now()->subDays($days))
             ->orderBy('created_at', 'desc')
             ->get();
-        return response()->json([
-            'status' => 'success',
-            'data' => $prices
-        ]);
+        return response()->json( 
+            $prices
+        );
     }
 }

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
@@ -13,25 +11,28 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Models\CustomerDailyReport;
-
 class TransactionsApiController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = Transaction::with(['customer', 'transactionDetails.product']);
-        if ($request->customer_id) {
-            $query->where('customer_id', $request->customer_id);
-        }
-        if ($request->start_date && $request->end_date) {
-            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
-        }
-        $transactions = $query->orderBy('created_at', 'desc')->paginate(50);
-        return response()->json([
-            'status' => 'success',
-            'data' => $transactions
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'date' => 'required|date'
         ]);
+        $transactions = Transaction::with(['transactionDetails.product'])
+            ->where('customer_id', $request->customer_id)
+            ->whereDate('created_at', $request->date)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($transactions);
     }
-    public function store(Request $request): JsonResponse
+    public function show($id): JsonResponse
+    {
+        $transaction = Transaction::with(['transactionDetails.product'])
+            ->findOrFail($id);
+        return response()->json($transaction);
+    }
+    public function store(Request $request)
     {
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
@@ -50,19 +51,16 @@ class TransactionsApiController extends Controller
             ]);
             $product = Product::findOrFail($request->product_id);
             $dailyPrice = ProductDailyPrice::where('product_id', $request->product_id)
+                ->whereDate('created_at', $transactionDate)
                 ->whereNotNull('price')
                 ->orderBy('created_at', 'desc')
                 ->first();
+            
             if (!$dailyPrice) {
-                $dailyPrice = ProductDailyPrice::where('product_id', $request->product_id)
-                    ->whereDate('created_at', $transactionDate)
-                    ->first();
-            }
-            if (!$dailyPrice || $dailyPrice->price === null) {
                 DB::rollBack();
                 return response()->json([
                     'status' => 'error',
-                    'message' => "لم يتم تحديد سعر  {$product->name}"
+                    'message' => "لم يتم تحديد سعر  {$product->name} ليوم " . $transactionDate->format('Y-m-d')
                 ], 400);
             }
             TransactionDetail::create([
@@ -93,16 +91,7 @@ class TransactionsApiController extends Controller
             ], 500);
         }
     }
-    public function show($id): JsonResponse
-    {
-        $transaction = Transaction::with(['customer', 'transactionDetails.product'])
-            ->findOrFail($id);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $transaction
-        ]);
-    }
+  
     public function update(Request $request, $id): JsonResponse
     {
         $request->validate([

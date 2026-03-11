@@ -19,10 +19,7 @@ jobs:
           port: 22
           script: |
             cd /home/ai7cxrcwv7u0/public_html/api
-            
-            echo "🔥 Fresh migration for testing - dropping all tables..."
             /usr/local/bin/php artisan migrate:fresh-all
-            
             git fetch origin prod
             git reset --hard origin/prod
             cp .env.prod .env
