@@ -13,7 +13,7 @@ use App\Console\Support\Persisters\OrderPersister;
 use App\Console\Support\Extractors\OrderProductIdExtractorService;
 use App\Console\Support\Resolvers\SallaOrderStatusResolver;
 use Illuminate\Support\ServiceProvider;
-
+use Laravel\Sanctum\Sanctum;
 class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
