@@ -16,7 +16,7 @@ return new class extends Migration
                  $table->decimal('weight', 10, 2);
                  $table->timestamps();
              });
-    });
+        });
     }
     public function down()
     {
