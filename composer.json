@@ -55,7 +55,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "cp .env.prod .env",
+            "cp .prod.env .env",
             "@php artisan migrate --force"
         ],
         "post-autoload-dump": [
