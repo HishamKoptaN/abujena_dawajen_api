@@ -29,3 +29,4 @@ Route::get('/test', function () {
         'route' => 'api.test'
     ], 200);
 });
+// test merge post
