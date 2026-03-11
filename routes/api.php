@@ -24,7 +24,7 @@ Route::apiResource('daily-orders', DailyOrdersApiController::class);
 Route::get('/test', function () {
     return response()->json([
         'status' => 'success',
-        'message' => 'Dashboard routes are working ✅',
+        'message' => 'Abu Jena Dawajen API routes are working ✅',
         'timestamp' => now(),
         'route' => 'api.test'
     ], 200);
