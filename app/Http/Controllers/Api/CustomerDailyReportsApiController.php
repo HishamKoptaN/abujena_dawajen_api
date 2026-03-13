@@ -22,7 +22,7 @@ class CustomerDailyReportsApiController extends Controller
 {
     public function index(GetDailyReportRequest $request): JsonResponse
     {   
-        Log::error('index end point', []);
+        Log::error('index end point', ['date' => $request->date]);
         $productDailyPrices = $this->getDailyPrices($request->date);
         $customerDailyReports = $this->getCustomerDailyReports($request->date);
         return response()->json([
