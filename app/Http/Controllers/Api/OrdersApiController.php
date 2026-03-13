@@ -30,13 +30,11 @@ class OrdersApiController extends Controller
             'customer_id' => 'required|exists:customers,id',
             'product_id' => 'required|exists:products,id',
             'count' => 'required|numeric|min:0.1',
-            'notes' => 'nullable|string'
         ]);
         $order = Order::create([
             'customer_id' => $request->customer_id,
             'product_id' => $request->product_id,
             'count' => $request->count,
-            'notes' => $request->notes
         ]);
            $dailyReport = CustomerDailyReport::getOrCreateForCustomer($request->customer_id);
             return response()->json( 
@@ -49,7 +47,6 @@ class OrdersApiController extends Controller
         $request->validate([
             'quantity' => 'sometimes|required|numeric|min:0.1',
             'status' => 'sometimes|required|in:pending,confirmed,delivered,cancelled',
-            'notes' => 'nullable|string'
         ]);
         $order->update($request->all());
         return response()->json([

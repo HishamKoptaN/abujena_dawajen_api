@@ -16,11 +16,13 @@ use App\Http\Resources\ProductPriceResource;
 use App\Models\CustomerDailyReport;
 use App\Helpers\DateHelper;
 use App\Http\Requests\GetDailyReportRequest;
+use Illuminate\Support\Facades\Log;
 
 class CustomerDailyReportsApiController extends Controller
 {
     public function index(GetDailyReportRequest $request): JsonResponse
     {   
+        Log::error('index end point', []);
         $productDailyPrices = $this->getDailyPrices($request->date);
         $customerDailyReports = $this->getCustomerDailyReports($request->date);
         return response()->json([
