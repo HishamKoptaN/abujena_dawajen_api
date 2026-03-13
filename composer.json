@@ -55,7 +55,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD); if [ \"$CURRENT_BRANCH\" = \"prod\" ]; then cp .prod.env .env; fi",
+            "CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD); if [ \"$CURRENT_BRANCH\" = \"prod\" ]; then cp .prod.env .env; else cp .dev.env .env; fi",
             "@php artisan migrate --force",
             "@php artisan config:cache",
             "@php artisan route:cache",
