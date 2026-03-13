@@ -554,16 +554,14 @@ return new class extends Migration
                 "closing_balance" => 34500,
             ],
         ];
-        foreach ($customers as $customerData) {
-            CustomerDailyReport::Create(
-                [
-                    'customer_id' => $customerData['id'],
-                    'closing_balance' => $customerData['closing_balance'],
-                    'created_at' => '2026-03-12',
-                    'updated_at' => '2026-03-12',
-                ]
-            );
-        }
+       foreach ($customers as $customerData) {
+    DB::table('customer_daily_reports')->insert([
+        'customer_id'     => $customerData['id'],
+        'closing_balance' => $customerData['closing_balance'],
+        'created_at'      => '2026-03-12 00:00:00',
+        'updated_at'      => '2026-03-12 00:00:00',
+    ]);
+}
     }
     public function down()
     {
