@@ -559,6 +559,8 @@ return new class extends Migration
                 [
                     'customer_id' => $customerData['id'],
                     'closing_balance' => $customerData['closing_balance'],
+                    'created_at' => '2026-03-12',
+                    'updated_at' => '2026-03-12',
                 ]
             );
         }
