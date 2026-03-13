@@ -12,38 +12,38 @@ class CustomersSeeder extends Seeder
                 "id" => 1,
                 "name" => "ام عبد الرحمن",
                 "number" => 1,
-                "closing_balance" => 15325
+                "closing_balance" => 9300
             ],
              [
                 "id" => 2,
                 "name" => "ام مدحت",
                 "number" => 2,
-                "closing_balance" => 1780
+                "closing_balance" => 780
             ],
             [
                 "id" => 3,
                 "name" => "محمد حافظ",
                 "number" => 3,
-                "closing_balance" => 1310
+                "closing_balance" => 2315
             ],
            
             [
                 "id" => 4,
                 "name" => "شعرواي",
                 "number" => 4,
-                "closing_balance" => 810
+                "closing_balance" => 1595
             ],
             [
                 "id" => 5,
                 "name" => "درويش الجزار",
                 "number" => 5,
-                "closing_balance" => 5305
+                "closing_balance" => 3685
             ],
             [
                 "id" => 6,
                 "name" => "المحل",
                 "number" => 6,
-                "closing_balance" => 3000
+                "closing_balance" => 
             ],
              [
                 "id" => 7,
@@ -61,7 +61,7 @@ class CustomersSeeder extends Seeder
                 "id" => 9,
                 "name" => "احمد صلاح",
                 "number" => 9,
-                "closing_balance" => 4545
+                "closing_balance" => 3975
             ],
             [
                 "id" => 10,
@@ -73,67 +73,67 @@ class CustomersSeeder extends Seeder
                 "id" => 11,
                 "name" => "الحداد",
                 "number" => 11,
-                "closing_balance" => 9065
+                "closing_balance" => 9145
             ],
             [
                 "id" => 12,
                 "name" => "الحاج عمارة",
                 "number" => 12,
-                "closing_balance" => 7685
+                "closing_balance" => 7680
             ],
             [
                 "id" => 13, 
                 "name" => "احمد شعبان",
                 "number" => 13,
-                "closing_balance" => 1900
+                "closing_balance" => 2480
             ],
             [
                 "id" => 14,
                 "name" => "محمد رشاد",
                 "number" => 14,
-                "closing_balance" => 200
+                "closing_balance" => 285
             ],
             [
                 "id" => 15,
                 "name" => "عبود ابو رية ",
                 "number" => 15,
-                "closing_balance" => 1520
+                "closing_balance" => 650
             ],
             [
                 "id" => 16,
                 "name" => "عيد رياض",
                 "number" => 16,
-                "closing_balance" => 3965
+                "closing_balance" => 2925
             ],
             [
                 "id" => 17,
                 "name" => "خالد سعيد",
                 "number" => 17,
-                "closing_balance" => 10000
+                "closing_balance" => 9885
             ],
             [
                 "id" => 18,
                 "name" => "ام عبدالله",
                 "number" => 18,
-                "closing_balance" => 490
+                "closing_balance" => 90
             ],
              [
                 "id" => 19,
                 "name" => "ابو عمار",
                 "number" => 19,
-                "closing_balance" => 860
+                "closing_balance" => 0
             ],
             [
                 "id" => 20,
                 "name" => "محمد الشريف",
                 "number" => 20,
-                "closing_balance" => 2155
+                "closing_balance" => 1345
             ],
             [
                 "id" => 21,
                 "name" => "فكري صابر",
                 "number" => 21,
-                "closing_balance" => 660
+                "closing_balance" => 1615
             ],
             [
                 "id" => 22,
@@ -187,7 +187,7 @@ class CustomersSeeder extends Seeder
                 "id" => 30,
                 "name" => "كريم حسن",
                 "number" => 30,
-                "closing_balance" => 3720
+                "closing_balance" => 2845
             ],
              [
                 "id" => 31,
@@ -199,7 +199,7 @@ class CustomersSeeder extends Seeder
                 "id" => 32,
                 "name" => "ام جومانا",
                 "number" => 32,
-                "closing_balance" => 20220
+                "closing_balance" => 20525
             ],
             [
                 "id" => 33,
@@ -211,13 +211,13 @@ class CustomersSeeder extends Seeder
                 "id" => 34,
                 "name" => "سعيد محمد",
                 "number" => 34,
-                "closing_balance" => 4550
+                "closing_balance" => 10025
             ],
             [
                 "id" => 35,
                 "name" => "ابو ادهم الضبعي",
                 "number" => 35,
-                "closing_balance" => 2570
+                "closing_balance" => 3090
             ],
             [
                 "id" => 36,
@@ -235,19 +235,19 @@ class CustomersSeeder extends Seeder
                 "id" => 38,
                 "name" => "ام محمود الضبعي",
                 "number" => 38,
-                "closing_balance" => 750
+                "closing_balance" => 1295
             ],
             [
                 "id" => 39,
                 "name" => "عاصم الصعيدي",
                 "number" => 39,
-                "closing_balance" => 4900
+                "closing_balance" => 4030
             ],
             [
                 "id" => 40,
                 "name" => "محمود حسن",
                 "number" => 40,
-                "closing_balance" => 8825
+                "closing_balance" => 7600
             ],
             [
                 "id" => 41,
@@ -259,25 +259,25 @@ class CustomersSeeder extends Seeder
                 "id" => 42,
                 "name" => "عيد زكريا",
                 "number" => 42,
-                "closing_balance" => 1825
+                "closing_balance" => 1865
             ],
             [
                 "id" => 43,
                 "name" => "محمد صلاح",
                 "number" => 43,
-                "closing_balance" => 4795
+                "closing_balance" => 5465
             ],
             [
                 "id" => 44,
                 "name" => "ام شروق",
                 "number" => 44,
-                "closing_balance" => 6770
+                "closing_balance" => 6515
             ],
               [
                 "id" => 45,
                 "name" => "ام عبدالرحمن ابو نجم",
                 "number" => 45,
-                "closing_balance" => 880
+                "closing_balance" => 480
             ],
               [
                 "id" => 46,
@@ -289,49 +289,49 @@ class CustomersSeeder extends Seeder
                 "id" => 47,
                 "name" => "ام ياسين ابو نجم",
                 "number" => 47,
-                "closing_balance" => 550
+                "closing_balance" => 420
             ],
             [
                 "id" => 48,
                 "name" => "مصطفي شامخ",
                 "number" => 48,
-                "closing_balance" => 3990
+                "closing_balance" => 4130
             ],
             [
                 "id" => 49,
                 "name" => "احمد عبد المجيد",
                 "number" => 49,
-                "closing_balance" => 7370
+                "closing_balance" => 8285
             ],
             [
                 "id" => 50,
                 "name" => "ام محمد البوسطة",
                 "number" => 50,
-                "closing_balance" => 25
+                "closing_balance" => 330
             ],
             [
                 "id" => 51,
                 "name" => "ام مصطفي العزبة",
                 "number" => 51,
-                "closing_balance" => 7880
+                "closing_balance" => 7645
             ],
             [
                 "id" => 52,
                 "name" => "عبده نمر",
                 "number" => 52,
-                "closing_balance" => 2290
+                "closing_balance" => 180
             ],
             [
                 "id" => 53,
                 "name" => "ام نوسة",
                 "number" => 53,
-                "closing_balance" => 1280
+                "closing_balance" => 0
             ],
             [
                 "id" => 54,
                 "name" => "ام احمد رجب",
                 "number" => 54,
-                "closing_balance" => 150
+                "closing_balance" => 0
             ],
             [
                 "id" => 55,
@@ -349,13 +349,13 @@ class CustomersSeeder extends Seeder
                 "id" => 57,
                 "name" => "عمرو هاشم",
                 "number" => 57,
-                "closing_balance" => 3055
+                "closing_balance" => 205
             ],
             [
                 "id" => 58,
                 "name" => "ام مؤمن",
                 "number" => 58,
-                "closing_balance" => 660
+                "closing_balance" => 3150
             ],
             [
                 "id" => 59,
@@ -367,31 +367,31 @@ class CustomersSeeder extends Seeder
                 "id" => 60,
                 "name" => "مسعد سعد",
                 "number" => 60,
-                "closing_balance" => 1650
+                "closing_balance" => 950
             ],
             [
                 "id" => 61,
                 "name" => "الحاجه ام عبد الناصر",
                 "number" => 61,
-                "closing_balance" => 3660
+                "closing_balance" => 3435
             ],
             [
                 "id" => 62,
                 "name" => "حماده المغربي",
                 "number" => 62,
-                "closing_balance" => 3020
+                "closing_balance" => 1020
             ],
             [
                 "id" => 63,
                 "name" => "الشيخ عبدالدايم",
                 "number" => 63,
-                "closing_balance" => 7900
+                "closing_balance" => 7110
             ],
             [
                 "id" => 64,
                 "name" => "محمد محمود",
                 "number" => 64,
-                "closing_balance" => 25640
+                "closing_balance" => 22295
             ],
             [
                 "id" => 65,
@@ -409,37 +409,37 @@ class CustomersSeeder extends Seeder
                 "id" => 67,
                 "name" => "حمدي ابراهيم",
                 "number" => 67,
-                "closing_balance" => 2040
+                "closing_balance" => 4725
             ],
             [
                 "id" => 68,
                 "name" => "عمر ماهر",
                 "number" => 68,
-                "closing_balance" => 2270
+                "closing_balance" => 1155
             ],
             [
                 "id" => 69,
                 "name" => "حسن سلطان",
                 "number" => 69,
-                "closing_balance" => 1810
+                "closing_balance" => 1330
             ],
             [
                 "id" => 70,
                 "name" => "عرفة محمد",
                 "number" => 70,
-                "closing_balance" => 1665
+                "closing_balance" => 800
             ],
             [
                 "id" => 71,
                 "name" => "فرج مزغونة",
                 "number" => 71,
-                "closing_balance" => 43640
+                "closing_balance" => 55575
             ],
-             [
+            [
                 "id" => 72,
                 "name" => "ام مكة",
                 "number" => 72,
-                "closing_balance" => 520
+                "closing_balance" => 3215
             ],
             [
                 "id" => 73,
@@ -463,7 +463,7 @@ class CustomersSeeder extends Seeder
                 "id" => 76,
                 "name" => "ابو سريع",
                 "number" => 76,
-                "closing_balance" => 138470,
+                "closing_balance" => 184150,
             ],
             [
                 "id" => 77,
@@ -493,13 +493,13 @@ class CustomersSeeder extends Seeder
                 "id" => 81,
                 "name" => " احمد سعودي ",
                 "number" => 81,
-                "closing_balance" => 7930
+                "closing_balance" => 1175
             ],
             [
                 "id" => 82,
                 "name" => " احمد الحسيني ",
                 "number" => 82,
-                "closing_balance" => 90,
+                "closing_balance" =>0,
             ],
             [
                 "id" => 83,
