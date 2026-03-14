@@ -12,7 +12,9 @@ class Collection extends Model
     protected $fillable = [
         'customer_id',
         'amount',
-        'notes'
+        'notes',
+        'created_at',
+        'updated_at'
     ];
     protected $casts = [
         'amount' => 'decimal:2',

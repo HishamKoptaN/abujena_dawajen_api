@@ -40,8 +40,9 @@ class TransactionsApiController extends Controller
             'weight' => 'required|numeric|min:0.1',
             'cage' => 'nullable|numeric|min:0',
             'discount' => 'nullable|numeric|min:0',
+            'date' => 'nullable|date',
         ]);
-        $transactionDate = now();
+        $transactionDate = $request->date ? Carbon::parse($request->date) : now();
         DB::beginTransaction();
         try {
             $transaction = Transaction::create([
@@ -55,14 +56,6 @@ class TransactionsApiController extends Controller
                 ->whereNotNull('price')
                 ->orderBy('created_at', 'desc')
                 ->first();
-            
-            if (!$dailyPrice) {
-                DB::rollBack();
-                return response()->json([
-                    'status' => 'error',
-                    'message' => "لم يتم تحديد سعر  {$product->name} ليوم " . $transactionDate->format('Y-m-d')
-                ], 400);
-            }
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'product_id' => $request->product_id,
@@ -91,7 +84,6 @@ class TransactionsApiController extends Controller
             ], 500);
         }
     }
-  
     public function update(Request $request, $id): JsonResponse
     {
         $request->validate([

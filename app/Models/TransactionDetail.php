@@ -12,7 +12,9 @@ class TransactionDetail extends Model
         'weight',
         'cage',
         'price_at_time',
-        'discount'
+        'discount',
+        'created_at',
+        'updated_at'
     ];
     protected $casts = [
         'weight' => 'decimal:2',

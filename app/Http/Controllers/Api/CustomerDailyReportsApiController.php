@@ -17,18 +17,18 @@ use App\Models\CustomerDailyReport;
 use App\Helpers\DateHelper;
 use App\Http\Requests\GetDailyReportRequest;
 use Illuminate\Support\Facades\Log;
+use App\Models\Settings;
 
 class CustomerDailyReportsApiController extends Controller
 {
     public function index(GetDailyReportRequest $request): JsonResponse
     {   
-        Log::error('index end point', ['date' => $request->date]);
-        Log::error('index end point', ['date' => $request->date]);
         $productDailyPrices = $this->getDailyPrices($request->date);
         $customerDailyReports = $this->getCustomerDailyReports($request->date);
         return response()->json([
-             'product_daily_prices' => ProductPriceResource::collection($productDailyPrices),
-             'customer_daily_reports' => CustomerDailyReportResource::collection($customerDailyReports),
+            'can_insert_previus_day_data' => Settings::get('can_insert_previus_day_data', false),
+            'product_daily_prices' => ProductPriceResource::collection($productDailyPrices),
+            'customer_daily_reports' => CustomerDailyReportResource::collection($customerDailyReports),
         ]);
     }
     private function getDailyPrices(Carbon $targetDate)

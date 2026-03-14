@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CollectionsApiController;
 use App\Http\Controllers\Api\CustomerDailyReportsApiController;
 use App\Http\Controllers\Api\TransactionsApiController;
 use App\Http\Controllers\Api\ReturnsApiController;
+use App\Http\Controllers\Api\SettingsApiController;
 Route::get('/system-status', function () {
     return response()->json([
         'version' => config('app.version'),
@@ -27,6 +28,12 @@ Route::get('products/today-prices', [ProductsApiController::class, 'getTodayPric
 Route::get('products/{productId}/price-history/{days?}', [ProductsApiController::class, 'getPriceHistory']);
 Route::apiResource('collections', CollectionsApiController::class);
 Route::apiResource('orders', OrdersApiController::class);
+// Settings routes
+Route::apiResource('settings', SettingsApiController::class);
+Route::get('settings/public', [SettingsApiController::class, 'public']);
+Route::post('settings/bulk-update', [SettingsApiController::class, 'updateMultiple']);
+Route::get('settings/group/{group}', [SettingsApiController::class, 'getByGroup']);
+Route::post('settings/clear-cache', [SettingsApiController::class, 'clearCache']);
 Route::get('/test', function () {
     return response()->json([
         'status' => 'success',

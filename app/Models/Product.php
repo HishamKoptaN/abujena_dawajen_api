@@ -23,7 +23,7 @@ class Product extends Model
     }
     public function getPriceForDate($date)
     {
-        return $this->productDailyPrices()->whereDate('created_at', $date)->first();
+        return $this->productDailyPrices()->whereDate('created_at', $date)->latest('id')->first();
     }
     public function orders(): HasMany
     {

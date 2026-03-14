@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Models\CustomerDailyReport;
+use Carbon\Carbon;
+
 class CollectionsApiController extends Controller
 {
     public function index(Request $request): JsonResponse
@@ -66,11 +68,14 @@ class CollectionsApiController extends Controller
         $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'amount'      => 'required|numeric|min:0.01',
+            'date' => 'nullable|date',
         ]);
         try {
             $collection = Collection::create([
                 'customer_id' => $request->customer_id,
                 'amount'      => $request->amount,
+                'created_at'  => $request->date ? Carbon::parse($request->date) : today(),
+                'updated_at'  => $request->date ? Carbon::parse($request->date) : today(),
             ]);
             $dailyReport = CustomerDailyReport::getOrCreateForCustomer($request->customer_id);
             return response()->json( 

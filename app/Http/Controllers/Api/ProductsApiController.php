@@ -23,21 +23,13 @@ class ProductsApiController extends Controller
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'price' => 'required|numeric|min:0',
+            'date' => 'nullable|date',
         ]);
-        $latestPrice = ProductDailyPrice::where('product_id', $request->product_id)
-            ->whereDate('created_at', today())
-            ->latest()
-            ->first();
-        if ($latestPrice && ($latestPrice->price === null || $latestPrice->price == 0)) {
-            $latestPrice->update(['price' => $request->price]);
-            return response()->json(new ProductDailyPriceResource($latestPrice));
-        }
-        if ($latestPrice && $latestPrice->price == $request->price) {
-            return response()->json(new ProductDailyPriceResource($latestPrice));
-        }
         $newPrice = ProductDailyPrice::create([
             'product_id' => $request->product_id,
             'price' => $request->price,
+            'created_at' => $request->date ? Carbon::parse($request->date) : today(),
+            'updated_at' => $request->date ? Carbon::parse($request->date) : today(),
         ]);
         return response()->json(new ProductDailyPriceResource($newPrice));
     }

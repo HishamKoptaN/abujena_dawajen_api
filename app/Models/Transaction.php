@@ -8,7 +8,9 @@ class Transaction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'customer_id'
+        'customer_id',
+        'created_at',
+        'updated_at'
     ];
     protected $casts = [
         'created_at' => 'datetime',

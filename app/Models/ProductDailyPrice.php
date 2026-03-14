@@ -11,6 +11,8 @@ class ProductDailyPrice extends Model
     protected $fillable = [
         'product_id',
         'price',
+        'created_at',
+        'updated_at'
     ];
     protected $casts = [
        'price' => PreciseDouble::class,
