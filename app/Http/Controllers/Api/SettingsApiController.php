@@ -12,9 +12,6 @@ use Illuminate\Validation\Rule;
 
 class SettingsApiController extends Controller
 {
-    /**
-     * Display a listing of the settings.
-     */
     public function index(Request $request): JsonResponse
     {
         $group = $request->query('group');
@@ -34,10 +31,6 @@ class SettingsApiController extends Controller
             'groups' => Settings::select('group')->distinct()->pluck('group'),
         ]);
     }
-
-    /**
-     * Get public settings for frontend use
-     */
     public function public(): JsonResponse
     {
         return response()->json([
