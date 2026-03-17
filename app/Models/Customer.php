@@ -52,7 +52,10 @@ class Customer extends Model
     {
         return $this->hasMany(Transaction::class);
     }
-
+    public function priceDiscounts()
+    {
+        return $this->hasMany(PriceDiscount::class);
+    }
     public function collections()
     {
         return $this->hasMany(Collection::class);

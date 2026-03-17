@@ -9,8 +9,10 @@ use App\Http\Controllers\Api\PaymentsApiController;
 use App\Http\Controllers\Api\CollectionsApiController;
 use App\Http\Controllers\Api\CustomerDailyReportsApiController;
 use App\Http\Controllers\Api\TransactionsApiController;
+use App\Http\Controllers\Api\TransactionsDetailsApiController;
 use App\Http\Controllers\Api\ReturnsApiController;
 use App\Http\Controllers\Api\SettingsApiController;
+use App\Http\Controllers\Api\PriceDiscountsApiController;
 Route::get('/system-status', function () {
     return response()->json([
         'version' => config('app.version'),
@@ -20,6 +22,7 @@ Route::get('/system-status', function () {
 Route::apiResource('customer-daily-reports', CustomerDailyReportsApiController::class);
 Route::get('customer-daily-reports/{customer_id}/statement', [CustomerDailyReportsApiController::class, 'generateAccountStatement']);
 Route::apiResource('transactions', TransactionsApiController::class);
+Route::apiResource('transactions/details', TransactionsDetailsApiController::class);
 Route::apiResource('returns', ReturnsApiController::class);
 Route::apiResource('customers', CustomersApiController::class);
 Route::apiResource('products', ProductsApiController::class);
@@ -30,6 +33,8 @@ Route::apiResource('collections', CollectionsApiController::class);
 Route::apiResource('orders', OrdersApiController::class);
 // Settings routes
 Route::apiResource('settings', SettingsApiController::class);
+Route::apiResource('price-discounts', PriceDiscountsApiController::class);
+Route::get('price-discounts/customer/{customer_id}', [PriceDiscountsApiController::class, 'getByCustomer']);
 Route::get('settings/public', [SettingsApiController::class, 'public']);
 Route::post('settings/bulk-update', [SettingsApiController::class, 'updateMultiple']);
 Route::get('settings/group/{group}', [SettingsApiController::class, 'getByGroup']);

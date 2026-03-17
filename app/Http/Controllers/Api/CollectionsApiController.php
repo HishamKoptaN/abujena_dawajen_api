@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\CustomerDailyReportResource;
 use App\Models\CustomerDailyReport;
 use Carbon\Carbon;
-
 class CollectionsApiController extends Controller
 {
     public function index(Request $request): JsonResponse
@@ -88,18 +87,28 @@ class CollectionsApiController extends Controller
             ], 500);
         }
     }
-    public function update(Request $request, $id): JsonResponse
+    public function update(Request $request, $id)
     {
         $collection = Collection::findOrFail($id);
-        $request->validate([
-            'amount' => 'sometimes|required|numeric|min:0.01',
-            'status' => 'sometimes|required|in:pending,collected,cancelled',
-        ]);
-        $collection->update($request->all());
-        if ($collection->wasChanged('status') && $collection->status === 'collected') {
-            $this->updateOrdersAfterCollection($collection->customer_id, $collection->collection_date, $collection->chicken_price);
+        DB::beginTransaction();
+        try {
+            $validated = $request->validate([
+                'amount' => 'required|numeric|min:0',
+            ]);
+            $collection->update($validated);
+            $collection->touch();
+            DB::commit();
+            $dailyReport = CustomerDailyReport::getOrCreateForCustomer($collection->customer_id);
+            return response()->json( 
+                new CustomerDailyReportResource($dailyReport)
+            );
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'حدث خطأ أثناء تحديث العملية: ' . $e->getMessage()
+            ], 500);
         }
-        return response()->json($collection);
     }
     public function getCustomerCollections($customerId): JsonResponse
     {

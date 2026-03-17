@@ -5,6 +5,7 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use App\Models\Product;
 use App\Models\ProductDailyPrice;
+use App\Models\PriceDiscount;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -56,12 +57,19 @@ class TransactionsApiController extends Controller
                 ->whereNotNull('price')
                 ->orderBy('created_at', 'desc')
                 ->first();
+            $priceDiscount = PriceDiscount::where('customer_id', $request->customer_id)
+                ->where('product_id', $request->product_id)
+                ->first();
+            $finalPrice = $dailyPrice->price;
+            if ($priceDiscount) {
+                $finalPrice = $dailyPrice->price - $priceDiscount->discount_value;
+            }
             TransactionDetail::create([
                 'transaction_id' => $transaction->id,
                 'product_id' => $request->product_id,
                 'weight' => $request->weight,
                 'cage' => $request->cage ?? 0,
-                'price_at_time' => $dailyPrice->price,
+                'price_at_time' => $finalPrice,
                 'discount' => $request->discount ?? 0,
                 'created_at' => $transactionDate,
                 'updated_at' => $transactionDate,

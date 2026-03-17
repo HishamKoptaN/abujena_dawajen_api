@@ -119,7 +119,6 @@ class CustomerDailyReport extends Model
     {
         $start = $startDate ? Carbon::parse($startDate) : Carbon::now()->subDays(30);
         $end = $endDate ? Carbon::parse($endDate) : Carbon::now();
-        
         $customer = Customer::find($customerId);
         if (!$customer) {
             return [
@@ -268,9 +267,7 @@ class CustomerDailyReport extends Model
             ->whereDate('created_at', $this->created_at)
             ->with(['product'])
             ->get();
-            
         $returnsTotal = 0;
-        
         foreach ($returns as $return) {
             $product = $return->product;
             if ($product) {
@@ -285,7 +282,6 @@ class CustomerDailyReport extends Model
                 }
             }
         }
-        
         return (float)$returnsTotal;
     }
 }

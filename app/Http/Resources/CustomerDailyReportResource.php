@@ -6,6 +6,7 @@ use App\Models\Transaction;
 use App\Models\Collection;
 use App\Models\Customer;
 use App\Models\ProductReturn;
+use App\Models\PriceDiscount;
 use Carbon\Carbon;
 
 class CustomerDailyReportResource extends JsonResource
@@ -62,6 +63,7 @@ class CustomerDailyReportResource extends JsonResource
             'total_transactions_amount' => $this->total_transactions_amount,
             'returns' => $this->getReturnsSummary($targetDate),
             'total_collections' => (int)$todayCollections->sum('amount'),
+            'price_discounts' => $this->getPriceDiscounts(),
             'closing_balance' => $this->resource->closing_balance,
         ];
     }
@@ -102,5 +104,21 @@ class CustomerDailyReportResource extends JsonResource
             ];
         }
         return $returnsSummary;
+    }
+    private function getPriceDiscounts()
+    {
+        return PriceDiscount::where('customer_id', $this->resource->customer->id)
+            ->with(['product'])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($discount) {
+                return [
+                    'id' => $discount->id,
+                    'product' => $discount->product,
+                    'discount_value' => (float)$discount->discount_value,
+                    'created_at' => $discount->created_at,
+                    'updated_at' => $discount->updated_at,
+                ];
+            });
     }
 }

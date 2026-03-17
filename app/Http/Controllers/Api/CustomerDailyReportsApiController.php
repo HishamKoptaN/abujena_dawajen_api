@@ -18,7 +18,6 @@ use App\Helpers\DateHelper;
 use App\Http\Requests\GetDailyReportRequest;
 use Illuminate\Support\Facades\Log;
 use App\Models\Settings;
-
 class CustomerDailyReportsApiController extends Controller
 {
     public function index(GetDailyReportRequest $request): JsonResponse
@@ -42,7 +41,6 @@ class CustomerDailyReportsApiController extends Controller
     {
         $customers = Customer::orderBy('number')->get();
         $customerDailyReports = collect();
-        
         foreach ($customers as $customer) {
             $dailyReport = CustomerDailyReport::getOrCreateForCustomer($customer->id, $targetDate);
             $customerDailyReports->push($dailyReport->load('customer'));
